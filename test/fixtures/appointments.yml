@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient: one
+  service: MyString
+  datetime: 2023-07-17 15:54:53
+
+two:
+  patient: two
+  service: MyString
+  datetime: 2023-07-17 15:54:53
