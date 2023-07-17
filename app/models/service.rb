@@ -1,2 +1,4 @@
 class Service < ApplicationRecord
-end
+    has_many :appointments
+  end
+  
