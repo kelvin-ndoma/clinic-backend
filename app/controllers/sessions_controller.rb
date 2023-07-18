@@ -9,10 +9,7 @@ class SessionsController < ApplicationController
       end
     end
   
-    def destroy
-      session.delete(:patient_id)
-      head :no_content
-    end
+   
   
     def current_user
       if session[:patient_id]
@@ -22,5 +19,10 @@ class SessionsController < ApplicationController
         render json: { error: "No current user" }, status: :unauthorized
       end
     end
+ def destroy
+      session.delete(:patient_id)
+      head :no_content
+    end
+
   end
   

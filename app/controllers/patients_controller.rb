@@ -1,11 +1,11 @@
 class PatientsController < ApplicationController
   def create
-    patient = Patient.find_by(email: params[:email])
-    if patient && patient.authenticate(params[:password])
+    patient = Patient.new(patient_params)
+    if patient.save
       session[:patient_id] = patient.id
-      render json: patient
+      render json: patient, status: :created
     else
-      render json: { error: "Invalid email or password" }, status: :unauthorized
+      render json: { errors: patient.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -23,6 +23,29 @@ class PatientsController < ApplicationController
     if patient
       appointments = patient.appointments
       render json: appointments
+    else
+      render json: { error: "Patient not found" }, status: :not_found
+    end
+  end
+
+  def update
+    patient = Patient.find_by(id: params[:id])
+    if patient
+      if patient.update(patient_params)
+        render json: patient
+      else
+        render json: { errors: patient.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      render json: { error: "Patient not found" }, status: :not_found
+    end
+  end
+
+  def destroy
+    patient = Patient.find_by(id: params[:id])
+    if patient
+      patient.destroy
+      head :no_content
     else
       render json: { error: "Patient not found" }, status: :not_found
     end
